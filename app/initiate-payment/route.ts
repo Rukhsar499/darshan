@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     console.log("furl:", furl);
 
     const response = await fetch(
-      `https://psmapi.thenoncoders.in/api/v1/initiate_booking_payment_ezb`,
+      `v1/initiate_booking_payment_ezb`,
       {
         method: "POST",
         headers: {

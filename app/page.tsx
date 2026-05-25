@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, MapPin, Phone, ArrowRight, CheckCircle2, Menu, X } from 'lucide-react';
 import Image from "next/image";
+import { motion } from "framer-motion";
+
 
 interface FormData {
   full_name: string;
@@ -34,18 +36,50 @@ export default function MusicalWorkshopLanding() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
+
     const form = e.currentTarget;
 
     if (form.checkValidity() === false) {
       e.stopPropagation();
       setValidated(true);
-    } else {
-      setValidated(true);
-      setIsSubmitted(true);
-      console.log('Registration Data Successfully Logged:', formData);
+      return;
     }
+
+    try {
+
+      const response = await fetch("/api/submit-booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      console.log(result);
+
+      if (result.status === true) {
+
+        setIsSubmitted(true);
+
+      } else {
+
+        alert("Submission failed");
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Something went wrong");
+
+    }
+
   };
 
   return (
@@ -222,23 +256,23 @@ export default function MusicalWorkshopLanding() {
                   <form noValidate onSubmit={handleSubmit} className={`space-y-4 ${validated ? 'was-validated' : ''}`}>
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
-                      <input type="text" name="full_name"  onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="text" name="full_name" onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
-                      <input type="email" name="email_id"  onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="email" name="email_id" onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Contact Number</label>
-                      <input type="tel" name="contact_no" value={formData.contact_no} onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="tel" name="contact_no" onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">City</label>
-                        <input type="text" name="city"  onChange={handleInputChange} placeholder="Kolkata" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                        <input type="text" name="city" onChange={handleInputChange} placeholder="Kolkata" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                       </div>
                       <div>
                         <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Age</label>
@@ -253,7 +287,7 @@ export default function MusicalWorkshopLanding() {
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">You are a...</label>
-                      <select name="dietPreference"  onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
+                      <select name="dietPreference" onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
                         <option value="" disabled>Select your meal option</option>
                         <option value="Veg">Veg</option>
                         <option value="Non Veg">Non Veg</option>
@@ -279,8 +313,24 @@ export default function MusicalWorkshopLanding() {
         </div>
       </header>
 
+      <section className="py-10 w-full items-center justify-center">
+        <div className="container mx-auto max-w-5xl">
+
+          <iframe
+            src="https://www.youtube.com/embed/4FvDqeKn_WU?si=6w7CnerNEf6rCyJ_"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="w-full h-[600px] rounded-2xl"
+          ></iframe>
+
+        </div>
+      </section>
+
       {/* Curriculum Highlights Section */}
-      <section id="curriculum" className="py-24 px-4 md:px-6 relativ">
+      <section id="curriculum" className="py-10 px-4 md:px-6 relativ">
         <div className="container mx-auto max-w-5xl">
 
           <div className="text-center mb-16">
