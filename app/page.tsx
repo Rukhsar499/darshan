@@ -49,8 +49,8 @@ export default function MusicalWorkshopLanding() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060b18] text-slate-100 font-sans selection:bg-[#dfb76c] selection:text-black antialiased">
-      
+    <div className="min-h-screen bg-[url('/images/bg.jpeg')] bg-cover bg-center bg-no-repeat text-slate-100 font-sans selection:bg-[#dfb76c] selection:text-black antialiased">
+
       {/* Dynamic Global Header */}
       <nav className="fixed top-0 inset-x-0 bg-[#060b18]/90 backdrop-blur-md z-50 border-b border-[#dfb76c]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,13 +58,13 @@ export default function MusicalWorkshopLanding() {
             {/* Left Side: Brand Logo Slot */}
             <div className="flex-shrink-0 flex items-center gap-2 bg-[white]">
               <span className=" font-serif text-xl sm:text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#f3dca3] via-[#dfb76c] to-[#a17a32]">
-                 <Image
-                    src="/images/psm.webp"
-                    alt="PSM Logo"
-                    width={130}
-                    height={26}
-                    className="object-contain"
-                  />
+                <Image
+                  src="/images/psm.webp"
+                  alt="PSM Logo"
+                  width={130}
+                  height={26}
+                  className="object-contain"
+                />
               </span>
             </div>
 
@@ -79,8 +79,8 @@ export default function MusicalWorkshopLanding() {
 
             {/* Mobile menu trigger button */}
             <div className="md:hidden">
-              <button 
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 text-slate-400 hover:text-[#dfb76c] focus:outline-none"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -103,36 +103,42 @@ export default function MusicalWorkshopLanding() {
 
       {/* Hero Section */}
       <header id="about" className="relative overflow-hidden min-h-screen pt-24 pb-12 flex items-center justify-center border-b border-[#dfb76c]/10">
-        
+
         {/* Poster Fluid Royal Blue and Gold Metallic Background Texture Match */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#0f1d43] via-[#060b18] to-black pointer-events-none" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1974&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-5 pointer-events-none" />
-        
+
         {/* Subtle glowing gold ambiance matching top-left corner elements */}
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#dfb76c]/10 via-transparent to-transparent blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-[#dfb76c]/5 via-transparent to-transparent blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
+
             {/* Left Column: Event Context Details */}
             <div className="lg:col-span-7 text-center lg:text-left space-y-6">
               <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-[#dfb76c] font-semibold">
                 A Musical Workshop
               </p>
-              
+
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-b from-[#f3dca3] via-[#dfb76c] to-[#a17a32] drop-shadow-md">
                 SOOR O DARSHAN
               </h1>
+              <p className="text-sm text-white">
+                Soor Darshan – A Musical Workshop is a unique two-day immersive music learning experience led by Padma Bhushan Pandit Ajoy Chakrabarty, one of India’s most celebrated classical vocalists. Presented by PSM Management Services Pvt Ltd and Education Partner Narayana Group of Schools, West Bengal, the workshop is designed for aspiring singers, music learners, students, teachers, and music enthusiasts of all levels.
+              </p>
+              <p className="text-sm text-white">
+                Participants will gain hands-on exposure to the fundamentals of Indian classical music, including sur, taal, riyaz, voice culture, breathing techniques, raaga expression, improvisation, and performance skills. The workshop will also feature interactive sessions, live practical learning, expert guidance, and valuable feedback from Panditji himself.
+              </p>
 
               {/* Partners Tags */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-3 items-center">
-              <span className="px-4 py-2 rounded-xl flex items-center gap-2 bg-[#0a1128]/80 border border-slate-800/80 backdrop-blur-sm">
-                  <span className="text-xs text-slate-400">Education Partner</span>
+                <span className="px-4 py-2 rounded-xl flex items-center gap-2">
+                  <span className="text-sm text-slate-400">Education Partner</span>
                   <Image
                     src="/images/narayana.webp"
                     alt="Narayana Logo"
-                    width={130}
+                    width={200}
                     height={26}
                     className="object-contain"
                   />
@@ -170,7 +176,7 @@ export default function MusicalWorkshopLanding() {
                     <p className="text-white font-bold text-sm md:text-base">22nd & 23rd June 2026</p>
                   </div>
                 </div>
-                
+
                 <div className="p-4 rounded-xl bg-[#0a1128]/40 backdrop-blur border-l-2 border-[#dfb76c] flex gap-4 items-center text-left">
                   <Clock className="w-5 h-5 text-[#dfb76c] shrink-0" />
                   <div>
@@ -192,7 +198,7 @@ export default function MusicalWorkshopLanding() {
             {/* Right Column: Secure Registration Form Container */}
             <div id="register" className="lg:col-span-5 w-full max-w-md mx-auto pt-4 lg:pt-0">
               <div className="p-6 md:p-8 rounded-2xl bg-[#0a1128]/70 backdrop-blur-xl border border-slate-800 shadow-2xl relative">
-                
+
                 <div className="text-center mb-6">
                   <h3 className="text-xl font-bold text-white tracking-wide">Secure Your Seat</h3>
                   <div className="inline-block px-5 py-2 rounded-full bg-[#060b18]/80 border border-[#dfb76c]/10 mt-3 text-center">
@@ -274,9 +280,9 @@ export default function MusicalWorkshopLanding() {
       </header>
 
       {/* Curriculum Highlights Section */}
-      <section id="curriculum" className="py-24 px-4 md:px-6 relative bg-[#0a1128]/30">
+      <section id="curriculum" className="py-24 px-4 md:px-6 relativ">
         <div className="container mx-auto max-w-5xl">
-          
+
           <div className="text-center mb-16">
             <span className="text-xs uppercase tracking-widest text-[#dfb76c] font-bold">Curriculum Breakdown</span>
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mt-2">Highlights of the Workshop</h2>
