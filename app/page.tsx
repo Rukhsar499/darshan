@@ -5,9 +5,9 @@ import { Calendar, Clock, MapPin, Phone, ArrowRight, CheckCircle2, Menu, X } fro
 import Image from "next/image";
 
 interface FormData {
-  fullName: string;
-  email: string;
-  contactNumber: string;
+  full_name: string;
+  contact_no: string;
+  email_id: string;
   city: string;
   age: string;
   profession: string;
@@ -16,9 +16,9 @@ interface FormData {
 
 export default function MusicalWorkshopLanding() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: '',
-    email: '',
-    contactNumber: '',
+    full_name: '',
+    contact_no: '',
+    email_id: '',
     city: '',
     age: '',
     profession: '',
@@ -202,7 +202,7 @@ export default function MusicalWorkshopLanding() {
                 <div className="text-center mb-6">
                   <h3 className="text-xl font-bold text-white tracking-wide">Secure Your Seat</h3>
                   <div className="inline-block px-5 py-2 rounded-full bg-[#060b18]/80 border border-[#dfb76c]/10 mt-3 text-center">
-                    <span className="text-slate-500 line-through text-sm mr-2.5">₹4,000</span>
+                    <span className="text-slate-500 line-through text-sm mr-2.5">₹3,000</span>
                     <span className="text-[#dfb76c] font-bold text-xl">₹2,500/-</span>
                     <span className="block text-[11px] text-[#dfb76c]/70 mt-0.5">*As Early Bird</span>
                   </div>
@@ -222,17 +222,17 @@ export default function MusicalWorkshopLanding() {
                   <form noValidate onSubmit={handleSubmit} className={`space-y-4 ${validated ? 'was-validated' : ''}`}>
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
-                      <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="text" name="fullName" value={formData.full_name} onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
-                      <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="email" name="email" value={formData.email_id} onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Contact Number</label>
-                      <input type="tel" name="contactNumber" value={formData.contactNumber} onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="tel" name="contactNumber" value={formData.contact_no} onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -253,7 +253,7 @@ export default function MusicalWorkshopLanding() {
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">You are a...</label>
-                      <select name="dietPreference" value={formData.dietPreference} onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
+                      <select name="dietPreference" value={formData.preferred_meal } onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
                         <option value="" disabled>Select your meal option</option>
                         <option value="Veg">Veg</option>
                         <option value="Non Veg">Non Veg</option>
