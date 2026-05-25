@@ -331,7 +331,7 @@ export default function MusicalWorkshopLanding() {
 
       {/* Curriculum Highlights Section */}
       <section id="curriculum" className="py-10 px-4 md:px-6 relativ">
-        <div className="container mx-auto max-w-5xl">
+        <div className="container mx-auto max-w-5xl px-4">
 
           <div className="text-center mb-16">
             <span className="text-xs uppercase tracking-widest text-[#dfb76c] font-bold">Curriculum Breakdown</span>
