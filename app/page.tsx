@@ -222,38 +222,38 @@ export default function MusicalWorkshopLanding() {
                   <form noValidate onSubmit={handleSubmit} className={`space-y-4 ${validated ? 'was-validated' : ''}`}>
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Full Name</label>
-                      <input type="text" name="fullName" value={formData.full_name} onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="text" name="full_name"  onChange={handleInputChange} placeholder="John Doe" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
-                      <input type="email" name="email" value={formData.email_id} onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="email" name="email_id"  onChange={handleInputChange} placeholder="john@example.com" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Contact Number</label>
-                      <input type="tel" name="contactNumber" value={formData.contact_no} onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="tel" name="contact_no" value={formData.contact_no} onChange={handleInputChange} placeholder="98362 XXXXX" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">City</label>
-                        <input type="text" name="city" value={formData.city} onChange={handleInputChange} placeholder="Kolkata" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                        <input type="text" name="city"  onChange={handleInputChange} placeholder="Kolkata" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                       </div>
                       <div>
                         <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Age</label>
-                        <input type="text" name="age" value={formData.age} onChange={handleInputChange} placeholder="24" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                        <input type="text" name="age" onChange={handleInputChange} placeholder="24" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                       </div>
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">Profession</label>
-                      <input type="text" name="profession" value={formData.profession} onChange={handleInputChange} placeholder="Music Instructor" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
+                      <input type="text" name="profession" onChange={handleInputChange} placeholder="Music Instructor" className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 placeholder-slate-700 focus:outline-none focus:border-[#dfb76c] transition-colors" required />
                     </div>
 
                     <div>
                       <label className="block text-xs font-medium text-slate-400 uppercase tracking-wider mb-1.5">You are a...</label>
-                      <select name="dietPreference" value={formData.preferred_meal } onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
+                      <select name="dietPreference"  onChange={handleInputChange} className="w-full bg-[#060b18] border border-slate-800 rounded-lg px-3.5 py-2.5 text-sm text-slate-300 focus:outline-none focus:border-[#dfb76c] transition-colors" required>
                         <option value="" disabled>Select your meal option</option>
                         <option value="Veg">Veg</option>
                         <option value="Non Veg">Non Veg</option>
