@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     console.log("📥 Easebuzz Callback Entries:", entries);
 
     // ✅ Forward callback to backend
-    const res = await fetch("https://psmapi.thenoncoders.in/api/v1/confirm_payment_ezb", {
+    const res = await fetch("https://psmapi.thenoncoders.in/api/v1/confirm_booking_payment_ezb", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     });
 
     const backendResponse = await res.json();
-    // console.log("📤 Backend confirm_payment_ezb Response:", backendResponse);
+    // console.log("📤 Backend confirm_booking_payment_ezb Response:", backendResponse);
 
     // ✅ Determine payment status
     const txnid = entries.txnid || backendResponse?.data?.txnid || "";
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     console.log("🧾 Final Detected Payment Status:", paymentstatus);
 
     // ✅ Base URL safety (detect if env missing)
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() || "http://localhost:3000/";
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL?.trim() || "http://localhost:3000";
 
     // console.log("🌐 Using base URL:", baseUrl);
     // console.log("📦 Payment Status:", paymentstatus);

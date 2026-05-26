@@ -3,9 +3,10 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { order_id } = body;
+    const { order_id, amount } = body;
 
     console.log("📥 Received order_id:", order_id);
+    console.log("📥 Received amount:", amount);
 
     //const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://njportal.thenoncoders.in";
     const surl = `${process.env.NEXT_PUBLIC_APP_URL}/api/easebuzz-callback`;
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     console.log("furl:", furl);
 
     const response = await fetch(
-      `v1/initiate_booking_payment_ezb`,
+      `https://psmapi.thenoncoders.in/api/v1/initiate_booking_payment_ezb`,
       {
         method: "POST",
         headers: {
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
         },
         body: JSON.stringify({
           order_id: order_id,
+          amount: amount,
           surl: surl,
           furl: furl
         }),
@@ -35,13 +37,21 @@ export async function POST(req: Request) {
     const result = await response.json();
     console.log("🔙 Easebuzz API Raw Response:", result);
 
-    if (result?.data?.access_key?.data) {
-      // console.log("✅ Access key received:", result.data.access_key.data);
-      return NextResponse.json({
-        success: true,
-        redirect: `https://pay.easebuzz.in/pay/${result.data.access_key.data}`,
-      });
-    } else {
+    if (
+  result?.data?.access_key?.status === 1 &&
+  result?.data?.access_key?.data
+) {
+
+  const accessKey = result.data.access_key.data;
+
+  console.log("✅ Valid Access Key:", accessKey);
+
+  return NextResponse.json({
+    success: true,
+    redirect: `https://pay.easebuzz.in/pay/${accessKey}`,
+  });
+
+}  else {
       console.log("❌ Payment initiation failed — no access key");
       return NextResponse.json({
         success: false,

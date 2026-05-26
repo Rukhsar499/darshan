@@ -14,6 +14,11 @@ interface FormData {
   age: string;
   profession: string;
   dietPreference: string;
+   accommodation: boolean;
+  "pay_description": string;
+  "total_amount": number;
+  "promo_code": string;
+  "discount_amount": number;
 }
 
 export default function MusicalWorkshopLanding() {
@@ -25,11 +30,23 @@ export default function MusicalWorkshopLanding() {
     age: '',
     profession: '',
     dietPreference: '',
+    accommodation: false,
+   pay_description: "Online Booking For Accommodation",
+   total_amount: 2500,
+   promo_code: "",
+   discount_amount: 0
   });
+
+  const baseAmount = 2500;
+
+const totalAmount = formData.accommodation
+  ? baseAmount + 1500
+  : baseAmount;
 
   const [validated, setValidated] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -38,49 +55,83 @@ export default function MusicalWorkshopLanding() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    const form = e.currentTarget;
+  const form = e.currentTarget;
 
-    if (form.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
+  if (form.checkValidity() === false) {
+    e.stopPropagation();
+    setValidated(true);
+    return;
+  }
+
+  try {
+
+    // STEP 1: Submit booking
+    const response = await fetch("/api/submitbooking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        amount: totalAmount,
+      }),
+    });
+
+    const result = await response.json();
+
+    console.log("Booking Result:", result);
+
+    if (result.status !== true) {
+      alert("Submission failed");
       return;
     }
 
-    try {
+    // STEP 2: Get order ID
+    const orderId = result?.orderId;
 
-      const response = await fetch("/api/submit-booking", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    if (!orderId) {
+      alert("Order ID not found");
+      return;
+    }
 
-      const result = await response.json();
+    // STEP 3: Initiate payment
+    const paymentResponse = await fetch("/api/initiate-payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order_id: orderId,
+        amount: totalAmount,
+      }),
+    });
 
-      console.log(result);
+    const paymentResult = await paymentResponse.json();
 
-      if (result.status === true) {
+    console.log("Payment Result:", paymentResult);
 
-        setIsSubmitted(true);
+    // STEP 4: Redirect to payment gateway
+    if (paymentResult.success && paymentResult.redirect) {
 
-      } else {
+      window.location.href = paymentResult.redirect;
 
-        alert("Submission failed");
+    } else {
 
-      }
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert("Something went wrong");
+      alert("Payment initiation failed");
 
     }
 
-  };
+  } catch (error) {
+
+    console.log(error);
+
+    alert("Something went wrong");
+
+  }
+
+};
 
   return (
     <div className="min-h-screen bg-[url('/images/bg.jpeg')] bg-cover bg-center bg-no-repeat text-slate-100 font-sans selection:bg-[#dfb76c] selection:text-black antialiased">
@@ -293,14 +344,39 @@ export default function MusicalWorkshopLanding() {
                         <option value="Non Veg">Non Veg</option>
                       </select>
                     </div>
+                    <div className="flex items-start gap-3 pt-2">
+                      <input
+                        type="checkbox"
+                        id="accommodation"
+                        name="accommodation"
+                        checked={formData.accommodation}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            accommodation: e.target.checked,
+                          })
+                        }
+                        className="mt-1 h-4 w-4 accent-[#dfb76c]"
+                      />
 
-                    <div className="pt-2">
-                      <button type="submit" className="w-full bg-gradient-to-r from-[#f3dca3] via-[#dfb76c] to-[#c59b4e] text-slate-950 font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm uppercase tracking-wider shadow-lg shadow-[#dfb76c]/10 hover:brightness-110">
-                        Register & Pay Now
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+                      <label
+                        htmlFor="accommodation"
+                        className="text-sm text-slate-300 leading-relaxed"
+                      >
+                        I need accommodation
+                        <span className="block text-xs text-[#dfb76c] mt-1">
+                          Additional ₹1500 will be added
+                        </span>
+                      </label>
                     </div>
 
+                    <button
+                      type="submit"
+                      className="w-full bg-gradient-to-r from-[#f3dca3] via-[#dfb76c] to-[#c59b4e] text-slate-950 font-bold py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 text-sm uppercase tracking-wider shadow-lg shadow-[#dfb76c]/10 hover:brightness-110"
+                    >
+                      Register & Pay ₹{totalAmount}
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
                     <p className="text-[11px] text-slate-400 text-center leading-relaxed">
                       *Accommodation required: If yes, then &ldquo;Additional Rs 1500 is required&rdquo;
                     </p>
