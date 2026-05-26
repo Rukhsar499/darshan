@@ -14,7 +14,7 @@ interface FormData {
   age: string;
   profession: string;
   dietPreference: string;
-   accommodation: boolean;
+  accommodation: boolean;
   "pay_description": string;
   "total_amount": number;
   "promo_code": string;
@@ -31,22 +31,22 @@ export default function MusicalWorkshopLanding() {
     profession: '',
     dietPreference: '',
     accommodation: false,
-   pay_description: "Online Booking For Accommodation",
-   total_amount: 1,
-   promo_code: "",
-   discount_amount: 0
+    pay_description: "Online Booking For Accommodation",
+    total_amount: 2500,
+    promo_code: "",
+    discount_amount: 0
   });
 
   const baseAmount = 2500;
 
-const totalAmount = formData.accommodation
-  ? baseAmount + 1500
-  : baseAmount;
+  const totalAmount = formData.accommodation
+    ? baseAmount + 1500
+    : baseAmount;
 
   const [validated, setValidated] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -55,83 +55,83 @@ const totalAmount = formData.accommodation
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.currentTarget;
+    const form = e.currentTarget;
 
-  if (form.checkValidity() === false) {
-    e.stopPropagation();
-    setValidated(true);
-    return;
-  }
-
-  try {
-
-    // STEP 1: Submit booking
-    const response = await fetch("/api/submitbooking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...formData,
-        amount: totalAmount,
-      }),
-    });
-
-    const result = await response.json();
-
-    console.log("Booking Result:", result);
-
-    if (result.status !== true) {
-      alert("Submission failed");
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
       return;
     }
 
-    // STEP 2: Get order ID
-    const orderId = result?.orderId;
+    try {
 
-    if (!orderId) {
-      alert("Order ID not found");
-      return;
+      // STEP 1: Submit booking
+      const response = await fetch("/api/submitbooking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          total_amount: totalAmount,
+        }),
+      });
+
+      const result = await response.json();
+
+      console.log("Booking Result:", result);
+
+      if (result.status !== true) {
+        alert("Submission failed");
+        return;
+      }
+
+      // STEP 2: Get order ID
+      const orderId = result?.orderId;
+
+      if (!orderId) {
+        alert("Order ID not found");
+        return;
+      }
+
+      // STEP 3: Initiate payment
+      const paymentResponse = await fetch("/api/initiate-payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          order_id: orderId,
+          amount: totalAmount,
+        }),
+      });
+
+      const paymentResult = await paymentResponse.json();
+
+      console.log("Payment Result:", paymentResult);
+
+      // STEP 4: Redirect to payment gateway
+      if (paymentResult.success && paymentResult.redirect) {
+
+        window.location.href = paymentResult.redirect;
+
+      } else {
+
+        alert("Payment initiation failed");
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Something went wrong");
+
     }
 
-    // STEP 3: Initiate payment
-    const paymentResponse = await fetch("/api/initiate-payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order_id: orderId,
-        amount: totalAmount,
-      }),
-    });
-
-    const paymentResult = await paymentResponse.json();
-
-    console.log("Payment Result:", paymentResult);
-
-    // STEP 4: Redirect to payment gateway
-    if (paymentResult.success && paymentResult.redirect) {
-
-      window.location.href = paymentResult.redirect;
-
-    } else {
-
-      alert("Payment initiation failed");
-
-    }
-
-  } catch (error) {
-
-    console.log(error);
-
-    alert("Something went wrong");
-
-  }
-
-};
+  };
 
   return (
     <div className="min-h-screen bg-[url('/images/bg.jpeg')] bg-cover bg-center bg-no-repeat text-slate-100 font-sans selection:bg-[#dfb76c] selection:text-black antialiased">
