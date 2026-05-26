@@ -32,7 +32,7 @@ export default function MusicalWorkshopLanding() {
     dietPreference: '',
     accommodation: false,
    pay_description: "Online Booking For Accommodation",
-   total_amount: 2500,
+   total_amount: 1,
    promo_code: "",
    discount_amount: 0
   });
